@@ -60,7 +60,7 @@ while True:
     print(f"\nCall Option for ${round(amount,3)} made!")
     if loss_count != 12:
         while True:
-            check, win = Iq.check_win_digital_v2(id,polling_time)
+            check, win = Iq.check_win_digital(id,polling_time)
             if check == True:
                 break
         if win < 0:
