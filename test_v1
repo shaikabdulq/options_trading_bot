@@ -50,7 +50,7 @@ Iq.connect()
 
 while True:
     start_at_specific_time(10)
-    if Iq.check_connect() == False:  # detect the websocket is close
+    if Iq.check_connect() == False: 
         print("Reconnecting...")
         Iq = IQ_Option(email, password)
         check, reason = Iq.connect()
@@ -60,7 +60,7 @@ while True:
     print(f"\nCall Option for ${round(amount,3)} made!")
     if loss_count != 12:
         while True:
-            check, win = Iq.check_win_digital(id,polling_time)
+            check, win = Iq.check_win_digital_v2(id)
             if check == True:
                 break
         if win < 0:
