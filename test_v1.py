@@ -34,12 +34,12 @@ def decide_amount(loss_count):
     ]
     return progression[loss_count]
 
-email = input('Enter Email ID: ')
-password = input('Enter Password: ')
-ACTIVES = input('Enter ACTIVE (EURUSD/EURUSD-OTC): ')
+email = 'quddus1999@gmail.com'
+password = 'rayeesA123'
+ACTIVES = 'EURUSD'
 duration = 1
 loss_count = 0
-action = input('Enter Action: ')
+action = 'call'
 total_win_count = 0
 polling_time=5
 
