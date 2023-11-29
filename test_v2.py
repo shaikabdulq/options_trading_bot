@@ -58,10 +58,14 @@ serial_no = 0
 Iq = IQ_Option(email, password)
 Iq.connect()
 balance = Iq.get_balance()
-print(f"\n\n\nTrading Bot ready ... \nBalance: {round(balance,3)}")
-# print(Iq.reset_practice_balance())
-# print(Iq.get_balance())
+ALL_Asset=Iq.get_all_open_time()
+if ALL_Asset["digital"]["EURUSD-OTC"]["open"]:
+    ACTIVES = 'EURUSD-OTC'
+else:
+    ACTIVES = 'EURUSD'
 
+print(f"\n\n\nTrading Bot ready ... \nBalance: {round(balance,3)} \nActive: {ACTIVES}")
+# print(Iq.reset_practice_balance())
 region_name = 'ap-south-1'
 table_name = 'trading_data'
 
@@ -111,7 +115,7 @@ while True:
     list_of_transactions.append(transaction)
     if serial_no % 5 == 0:
         print("\nWriting to Database...")
-        dynamodb = boto3.resource('dynamodb', region_name=region_name)
+        dynamodb = boto3.resource('dynamodb', region_name=region_name) ## aws_access_key_id=aws_access_key_id,# aws_secret_access_key=aws_secret_access_key
         table = dynamodb.Table(table_name)
         with table.batch_writer() as batch:
             for item in list_of_transactions:
