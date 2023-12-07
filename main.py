@@ -35,7 +35,7 @@ def decide_amount(loss_count):
     return progression[loss_count]
 
 
-fhand = open('secret.txt')
+fhand = open('/home/ec2-user/secret.txt')
 data = fhand.read()
 email = ((data.split(','))[0]).strip()
 password = ((data.split(','))[1]).strip()
