@@ -35,8 +35,8 @@ def decide_amount(loss_count):
     ]
     return progression[loss_count]
 
-email = 'quddus1999@gmail.com'
-password = 'rayeesA123'
+email = 'youremail@example.com'
+password = 'password'
 ACTIVES = "EURUSD"
 region_name = 'ap-south-1'
 table_name = 'trading_data'
