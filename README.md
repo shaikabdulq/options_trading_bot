@@ -2,7 +2,7 @@
 Python Bot that uses AWS cloud to trade in digital options
 
 <br>
-<img src = 'image/firsttrade.gif' height = '550' weight = '650'>
+<img src = 'image/100 trans.jpg' height = '550' weight = '650'>
 <br>
 
 ## Overview
@@ -12,6 +12,9 @@ This project consists of a Python-based trading bot that interacts with AWS Clou
 
 ### **main.py**
 - The core script of the trading bot. It includes the logic for market interaction, time-based actions, and decision-making algorithms.
+    <br>
+    <img src = 'image/firsttrade.gif' height = '550' weight = '650'>
+    <br>
 - This script runs on EC2 Instance on AWS Cloud Services.
 - It integrates with the IQ Option API for trading actions. For more information on the IQ Option APi, click [here](https://github.com/iqoptionapi/iqoptionapi).
 - Includes functions for starting actions at specific times and deciding the amount to trade based on a progression system.
