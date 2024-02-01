@@ -85,10 +85,7 @@ while True:
     print(f'\nInitiating transaction {serial_no} ...')
     amount = decide_amount(loss_count)
     start_at_specific_time(26)
-    if Iq.check_connect() == False:  # detect the websocket is close
-        print("Reconnecting...")
-        Iq = IQ_Option(email, password)
-        check, reason = Iq.connect()
+        
     _, id = (Iq.buy_digital_spot(ACTIVES, amount, action, duration))
     print(f"Call Option for ${round(amount,2)} made ...")
     while True:
@@ -131,3 +128,7 @@ while True:
                 batch.put_item(Item=item)
         #print(list_of_transactions)
         list_of_transactions = []
+
+        print("\nReconnecting...")
+        Iq = IQ_Option(email, password)
+        check, reason = Iq.connect()
