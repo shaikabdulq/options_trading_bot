@@ -1,0 +1,80 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS infrastructure setup for the project
+
+Resources:
+  MyEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: 'ami-02a2af70a66af6dfb'
+      InstanceType: t2.micro
+      KeyName: !Ref MyKeyPair
+      SecurityGroups: 
+        - !Ref MySecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          yum install -y pip
+          pip install websocket-client==0.56
+          pip install -U https://github.com/iqoptionapi/iqoptionapi/archive/refs/heads/master.zip
+          yum install -y git
+          git clone https://github.com/shaikabdulq/options_trading_bot.git /home/ec2-user/options_trading_bot
+          yum install -y tmux
+          pip install boto3
+      IamInstanceProfile:
+        Arn: !GetAtt MyIAMRole.Arn
+
+  MyDynamoDBTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: trading_data  # Update this name as needed
+      AttributeDefinitions:
+        - AttributeName: serial_no
+          AttributeType: N
+      KeySchema:
+        - AttributeName: serial_no
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  MySecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Only Allow SSH for trading
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0  # Update this to restrict access
+
+  MyIAMRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      Path: '/'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess' # adjust if necessary
+        - 'arn:aws:iam::aws:policy/AmazonEC2FullAccess'      # adjust if necessary
+
+Parameters:
+  MyKeyPair:
+    Description: EC2 KeyPair
+    Type: AWS::EC2::KeyPair::KeyName
+
+Outputs:
+  EC2InstanceId:
+    Description: The Instance ID of the EC2 instance
+    Value: !Ref MyEC2Instance
+
+  DynamoDBTableName:
+    Description: The name of the DynamoDB table
+    Value: !Ref MyDynamoDBTable
+
+  IAMRoleName:
+    Description: The name of the IAM role
+    Value: !Ref MyIAMRole
